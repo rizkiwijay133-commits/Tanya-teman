@@ -1,0 +1,634 @@
+
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<meta name="theme-color" content="#fff0f5">
+<title>Little Link Studio</title>
+
+<style>
+:root {
+  --pink: #ff4f87;
+  --bg: #fff0f5;
+  --ink: #57243a;
+  --soft: #ffd5e3;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  min-height: 100vh;
+  min-height: 100dvh;
+  padding: 20px;
+  display: grid;
+  place-items: center;
+  font-family: system-ui, sans-serif;
+  color: var(--ink);
+  background: radial-gradient(circle at top, white, var(--bg) 55%, var(--soft));
+}
+
+button, input, textarea, select {
+  font: inherit;
+}
+
+button {
+  border: 0;
+  border-radius: 14px;
+  padding: 13px 17px;
+  font-weight: 750;
+  cursor: pointer;
+  touch-action: manipulation;
+}
+
+button:active {
+  filter: brightness(.96);
+}
+
+.wrap {
+  width: 100%;
+  max-width: 460px;
+}
+
+.card {
+  width: 100%;
+  padding: 25px;
+  border: 1px solid #ffffffd9;
+  border-radius: 26px;
+  background: #ffffffdf;
+  box-shadow: 0 20px 65px #b94e751c;
+  backdrop-filter: blur(12px);
+  animation: appear .4s ease;
+}
+
+@keyframes appear {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.brand {
+  text-align: center;
+  color: #c06c8a;
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: 3px;
+}
+
+h1 {
+  text-align: center;
+  font-size: 28px;
+  line-height: 1.25;
+  overflow-wrap: anywhere;
+  margin: 15px 0 10px;
+}
+
+.desc {
+  text-align: center;
+  font-size: 14px;
+  line-height: 1.7;
+  color: #986c80;
+  white-space: pre-line;
+}
+
+label {
+  display: block;
+  margin: 14px 0 6px;
+  font-size: 12px;
+  font-weight: 750;
+}
+
+input, textarea, select {
+  width: 100%;
+  padding: 12px;
+  border: 1px solid #efd5df;
+  border-radius: 12px;
+  background: #fffafb;
+  color: #57243a;
+  outline: none;
+}
+
+textarea {
+  min-height: 76px;
+  resize: vertical;
+}
+
+input:focus, textarea:focus, select:focus {
+  border-color: var(--pink);
+}
+
+.row {
+  display: flex;
+  gap: 10px;
+}
+
+.row > * {
+  flex: 1;
+  min-width: 0;
+}
+
+.primary {
+  background: var(--pink);
+  color: white;
+  box-shadow: 0 7px 18px #ff4f8730;
+}
+
+.secondary {
+  background: #ffe5ee;
+  color: #a34468;
+}
+
+.full {
+  width: 100%;
+  margin-top: 12px;
+}
+
+.hidden {
+  display: none !important;
+}
+
+.result {
+  margin-top: 14px;
+  padding: 12px;
+  background: var(--bg);
+  border-radius: 12px;
+  font-size: 12px;
+  line-height: 1.7;
+  overflow-wrap: anywhere;
+  user-select: text;
+}
+
+.art {
+  text-align: center;
+  font-size: 76px;
+  margin: 20px 0;
+  animation: bob 2s ease-in-out infinite;
+}
+
+@keyframes bob {
+  50% { transform: translateY(-8px) rotate(3deg); }
+}
+
+.actions {
+  position: relative;
+  min-height: 110px;
+  margin-top: 16px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+#yes {
+  position: relative;
+  z-index: 10;
+  background: var(--pink);
+  color: white;
+  font-size: 16px;
+  padding: 14px 25px;
+  white-space: nowrap;
+  transform-origin: center;
+  transition: transform .32s ease;
+  box-shadow: 0 7px 22px #ff4f8745;
+}
+
+#no {
+  position: relative;
+  z-index: 2;
+  background: #ffe5ee;
+  color: #9e4b6a;
+  padding: 12px 20px;
+}
+
+#yes.fullscreen {
+  position: fixed;
+  inset: 0;
+  width: 100vw;
+  height: 100vh;
+  height: 100dvh;
+  max-width: none;
+  max-height: none;
+  margin: 0;
+  padding: 20px;
+  border-radius: 0;
+  transform: none !important;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: clamp(25px, 8vw, 42px);
+  white-space: normal;
+  text-align: center;
+  z-index: 99999;
+  box-shadow: none;
+}
+
+.foot {
+  text-align: center;
+  color: #bf91a3;
+  font-size: 11px;
+  margin-top: 18px;
+}
+
+#toast {
+  text-align: center;
+  font-size: 12px;
+  color: #b32e65;
+  line-height: 1.6;
+  margin-top: 10px;
+}
+
+#hearts {
+  position: fixed;
+  inset: 0;
+  overflow: hidden;
+  pointer-events: none;
+  z-index: 100000;
+}
+
+.heart {
+  position: absolute;
+  bottom: -35px;
+  animation: rise linear forwards;
+}
+
+@keyframes rise {
+  to {
+    transform: translateY(-115vh) rotate(35deg);
+    opacity: 0;
+  }
+}
+
+@media (max-width: 360px) {
+  .card { padding: 19px; }
+  h1 { font-size: 25px; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: .01ms !important;
+    transition-duration: .01ms !important;
+  }
+}
+</style>
+</head>
+
+<body>
+<div id="hearts"></div>
+
+<main class="wrap">
+  <section class="card" id="editor">
+    <div class="brand">LITTLE LINK STUDIO</div>
+    <h1>Bikin halamanmu sendiri ✨</h1>
+    <p class="desc">
+      Custom pertanyaan dan tombolmu sendiri.
+      Setelah selesai, buat link untuk dibagikan.
+    </p>
+
+    <label for="to">Nama penerima (opsional)</label>
+    <input id="to" maxlength="100" placeholder="Contoh: Alex">
+
+    <label for="question">Pertanyaan utama</label>
+    <input id="question" maxlength="180" value="Ada sesuatu yang mau aku tanyain...">
+
+    <label for="subtitle">Pesan pembuka</label>
+    <textarea id="subtitle" maxlength="600">Aku punya pertanyaan buat kamu. Pilih jawabanmu ya!</textarea>
+
+    <div class="row">
+      <div>
+        <label for="yesText">Tombol IYA</label>
+        <input id="yesText" maxlength="60" value="IYA ❤️">
+      </div>
+      <div>
+        <label for="noText">Tombol TIDAK</label>
+        <input id="noText" maxlength="60" value="TIDAK 🙈">
+      </div>
+    </div>
+
+    <label for="successText">Pesan setelah klik IYA</label>
+    <textarea id="successText" maxlength="800">Makasih sudah menjawab! Semoga harimu menyenangkan 💗</textarea>
+
+    <label for="theme">Tema warna</label>
+    <select id="theme">
+      <option value="pink">Pink aesthetic</option>
+      <option value="purple">Ungu dreamy</option>
+      <option value="blue">Biru ocean</option>
+      <option value="dark">Dark mode</option>
+      <option value="green">Hijau mint</option>
+    </select>
+
+    <button class="primary full" id="preview">Preview halaman</button>
+    <button class="secondary full" id="makeLink">Buat link untuk dibagikan ↗</button>
+
+    <div class="result hidden" id="result"></div>
+    <button class="secondary full hidden" id="copyLink">Salin link</button>
+    <button class="secondary full hidden" id="shareLink">Bagikan link</button>
+    <div id="toast" role="status"></div>
+
+    <div class="foot">Custom sesukamu · Satu file HTML</div>
+  </section>
+
+  <section class="card hidden" id="recipient">
+    <div class="brand">A LITTLE MESSAGE FOR YOU</div>
+    <div class="art" id="art">💌</div>
+    <h1 id="rQuestion"></h1>
+    <p class="desc" id="rSubtitle"></p>
+
+    <div class="actions" id="actions">
+      <button id="yes"></button>
+      <button id="no"></button>
+    </div>
+
+    <p class="desc" id="hint">Pilih jawabanmu ✨</p>
+    <div class="foot">dibuat dengan ♡</div>
+  </section>
+
+  <section class="card hidden" id="success">
+    <div class="art" id="celebrate">💖🎉💖</div>
+    <h1 id="sTitle">Makasih!</h1>
+    <p class="desc" id="sMessage"></p>
+    <button class="primary full" id="again">Lihat lagi</button>
+    <button class="secondary full" id="backEditor">Kembali ke editor</button>
+  </section>
+</main>
+
+<script>
+const $ = id => document.getElementById(id);
+
+const defaults = {
+  to: "",
+  question: "Ada sesuatu yang mau aku tanyain...",
+  subtitle: "Aku punya pertanyaan buat kamu. Pilih jawabanmu ya!",
+  yesText: "IYA ❤️",
+  noText: "TIDAK 🙈",
+  successText: "Makasih sudah menjawab! Semoga harimu menyenangkan 💗",
+  theme: "pink"
+};
+
+const themes = {
+  pink: ["#ff4f87", "#fff0f5", "#57243a", "#ffd5e3"],
+  purple: ["#9b72ef", "#f5efff", "#40245e", "#ded0ff"],
+  blue: ["#368de7", "#edf6ff", "#1c4168", "#cde6ff"],
+  dark: ["#ff75a8", "#17131d", "#f9eaf1", "#302536"],
+  green: ["#2cae91", "#eafff7", "#1e5548", "#c8f5e8"]
+};
+
+const fieldIds = [
+  "to", "question", "subtitle", "yesText",
+  "noText", "successText", "theme"
+];
+
+let config = { ...defaults };
+let noCount = 0;
+let scale = 1;
+let madeURL = "";
+
+function applyTheme(name) {
+  const t = themes[name] || themes.pink;
+  document.documentElement.style.setProperty("--pink", t[0]);
+  document.documentElement.style.setProperty("--bg", t[1]);
+  document.documentElement.style.setProperty("--ink", t[2]);
+  document.documentElement.style.setProperty("--soft", t[3]);
+  document.querySelector('meta[name="theme-color"]').content = t[1];
+}
+
+function readForm() {
+  fieldIds.forEach(id => {
+    config[id] = $(id).value;
+  });
+  return { ...config };
+}
+
+function fillForm(c) {
+  fieldIds.forEach(id => {
+    $(id).value = c[id] ?? defaults[id];
+  });
+}
+
+function show(id) {
+  ["editor", "recipient", "success"].forEach(name => {
+    $(name).classList.toggle("hidden", name !== id);
+  });
+}
+
+function resetRecipient() {
+  noCount = 0;
+  scale = 1;
+
+  $("yes").classList.remove("fullscreen");
+  $("yes").style.transform = "scale(1)";
+  $("yes").style.display = "";
+  $("no").style.display = "";
+  $("hint").style.visibility = "";
+  $("art").style.visibility = "";
+  $("rQuestion").style.visibility = "";
+  $("rSubtitle").style.visibility = "";
+  $("actions").style.zIndex = "";
+}
+
+function openRecipient(c) {
+  config = { ...defaults, ...c };
+  applyTheme(config.theme);
+  resetRecipient();
+
+  $("art").textContent = "💌";
+  $("rQuestion").textContent = config.question;
+  $("rSubtitle").textContent =
+    (config.to.trim() ? "Untuk " + config.to.trim() + " 💌\n" : "") +
+    config.subtitle;
+
+  $("yes").textContent = config.yesText;
+  $("no").textContent = config.noText;
+  $("hint").textContent = "Pilih jawabanmu ✨";
+
+  show("recipient");
+}
+
+function celebrate() {
+  $("sTitle").textContent = "Makasih! 💖";
+  $("sMessage").textContent = config.successText;
+  show("success");
+
+  for (let i = 0; i < 38; i++) {
+    const el = document.createElement("span");
+    el.className = "heart";
+    el.textContent = ["💖", "💗", "✨", "💕", "🌸"][i % 5];
+    el.style.left = Math.random() * 100 + "%";
+    el.style.animationDuration = (3 + Math.random() * 3) + "s";
+    el.style.fontSize = (15 + Math.random() * 23) + "px";
+    $("hearts").appendChild(el);
+    setTimeout(() => el.remove(), 7000);
+  }
+}
+
+$("yes").addEventListener("click", celebrate);
+
+$("no").addEventListener("click", () => {
+  noCount++;
+
+  const messages = [
+    "Yakin? Coba pikir lagi 😳",
+    "Beneran nih? 👀",
+    "Tombol IYA makin besar, nih!",
+    "Masih bisa berubah pikiran 😭",
+    "Sekarang tombol IYA menguasai layar!"
+  ];
+
+  $("hint").textContent =
+    messages[Math.min(noCount - 1, messages.length - 1)];
+
+  $("art").textContent = ["🥹", "😳", "🫣", "🥺", "💗"][
+    Math.min(noCount - 1, 4)
+  ];
+
+  // Perbesar bertahap sampai mode layar penuh.
+  scale *= 1.5;
+
+  if (scale >= 8) {
+    $("yes").classList.add("fullscreen");
+    $("yes").style.transform = "none";
+    $("yes").textContent = config.yesText;
+    $("no").style.display = "none";
+
+    $("hint").style.visibility = "hidden";
+    $("art").style.visibility = "hidden";
+    $("rQuestion").style.visibility = "hidden";
+    $("rSubtitle").style.visibility = "hidden";
+  } else {
+    $("yes").style.transform = `scale(${scale})`;
+  }
+});
+
+$("again").addEventListener("click", () => openRecipient(config));
+
+$("backEditor").addEventListener("click", () => {
+  fillForm(config);
+  applyTheme(config.theme);
+  show("editor");
+});
+
+$("preview").addEventListener("click", () => {
+  openRecipient(readForm());
+});
+
+function encodeConfig(c) {
+  const bytes = new TextEncoder().encode(JSON.stringify(c));
+  let binary = "";
+  bytes.forEach(b => binary += String.fromCharCode(b));
+  return btoa(binary)
+    .replace(/\+/g, "-")
+    .replace(/\//g, "_")
+    .replace(/=+$/g, "");
+}
+
+function decodeConfig(encoded) {
+  let base64 = encoded.replace(/-/g, "+").replace(/_/g, "/");
+  while (base64.length % 4) base64 += "=";
+  const binary = atob(base64);
+  const bytes = Uint8Array.from(binary, c => c.charCodeAt(0));
+  return JSON.parse(new TextDecoder().decode(bytes));
+}
+
+$("makeLink").addEventListener("click", () => {
+  readForm();
+
+  const base = location.href.split("#")[0];
+  const data = encodeConfig(config);
+  madeURL = base + "#data=" + data;
+
+  $("result").classList.remove("hidden");
+  $("result").textContent = madeURL;
+  $("copyLink").classList.remove("hidden");
+  $("shareLink").classList.remove("hidden");
+
+  if (location.protocol === "file:") {
+    $("toast").textContent =
+      "PENTING: file masih lokal. Upload index.html ke hosting agar penerima bisa membuka link ini.";
+  } else {
+    $("toast").textContent =
+      "Link siap. Pengaturan custom disimpan di bagian URL setelah tanda #.";
+  }
+});
+
+async function copyText(text) {
+  try {
+    await navigator.clipboard.writeText(text);
+    $("toast").textContent = "Link berhasil disalin!";
+  } catch (err) {
+    $("result").textContent = madeURL;
+    const range = document.createRange();
+    range.selectNodeContents($("result"));
+    const selection = window.getSelection();
+    selection.removeAllRanges();
+    selection.addRange(range);
+    $("toast").textContent =
+      "Pilih dan salin link yang tampil di atas.";
+  }
+}
+
+$("copyLink").addEventListener("click", () => {
+  copyText(madeURL);
+});
+
+$("shareLink").addEventListener("click", async () => {
+  if (navigator.share) {
+    try {
+      await navigator.share({
+        title: "Ada pesan buat kamu 💌",
+        text: "Buka link ini ya!",
+        url: madeURL
+      });
+    } catch (err) {
+      // Pengguna mungkin membatalkan menu berbagi.
+    }
+  } else {
+    location.href = "https://wa.me/?text=" +
+      encodeURIComponent("Ada pesan buat kamu 💌\n" + madeURL);
+  }
+});
+
+// Buka halaman penerima jika URL mengandung konfigurasi custom.
+try {
+  const hash = location.hash;
+  if (hash.startsWith("#data=")) {
+    const decoded = decodeConfig(hash.slice(6));
+
+    if (decoded && typeof decoded === "object") {
+      const safeConfig = { ...defaults };
+
+      fieldIds.forEach(id => {
+        if (typeof decoded[id] === "string") {
+          safeConfig[id] = decoded[id].slice(0, 1000);
+        }
+      });
+
+      openRecipient(safeConfig);
+    } else {
+      show("editor");
+    }
+  } else {
+    fillForm(defaults);
+    applyTheme("pink");
+    show("editor");
+  }
+} catch (err) {
+  fillForm(defaults);
+  applyTheme("pink");
+  show("editor");
+}
+
+// Hati dekoratif di latar.
+for (let i = 0; i < 14; i++) {
+  const h = document.createElement("span");
+  h.className = "heart";
+  h.textContent = ["♡", "♥", "✦"][i % 3];
+  h.style.left = Math.random() * 100 + "%";
+  h.style.animationDuration = (7 + Math.random() * 8) + "s";
+  h.style.animationDelay = (-Math.random() * 12) + "s";
+  $("hearts").appendChild(h);
+}
+</script>
+</body>
+</html>
